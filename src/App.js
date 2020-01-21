@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import api from './services/api'
 import './global.css'
 import './App.js'
 import './Sidebar.css'
@@ -26,11 +27,22 @@ function App() {
     )
   }, []);
 
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const response = await api.post('/devs', {
+      githubUsername,
+      techs,
+      latitude,
+      longitude
+    });
+    console.log(response.data);
+  }
+
   return (
     <div id="app">
        <aside>
           <strong>Cadastrar</strong>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="input-block">
               <label htmlFor="github_username">Usuário do Github</label>
               <input
@@ -38,7 +50,7 @@ function App() {
                id="github_username"
                required
                value={githubUsername}
-               onChange={e => setGithubUsername(e.target.value)}
+               onChange={event => setGithubUsername(event.target.value)}
               />              
             </div>
             <div className="input-block">
@@ -48,7 +60,7 @@ function App() {
                id="techs"
                required
                value={techs}
-               onChange={e => setTechs(e.target.value)}
+               onChange={event => setTechs(event.target.value)}
               />
             </div>
             <div className="input-group">
@@ -60,7 +72,7 @@ function App() {
                  id="latitude"
                  required
                  value={latitude}
-                 onChange={e => setLatitude(e.target.value)}
+                 onChange={event => setLatitude(event.target.value)}
                 />
               </div>
               <div className="input-block">
@@ -71,7 +83,7 @@ function App() {
                  id="longitude"
                  required
                  value={longitude}
-                 onChange={e => setLongitude(e.target.value)}
+                 onChange={event => setLongitude(event.target.value)}
                 />
               </div>
             </div>
